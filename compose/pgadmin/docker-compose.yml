@@ -21,8 +21,6 @@ services:
       - PGADMIN_CONFIG_SERVER_MODE=$PGADMIN_CONFIG_SERVER_MODE
     volumes:
       - pgadmin:/var/lib/pgadmin
-    ports:
-      - $PGADMIN_PORT
     networks:
       - postgres
     restart: unless-stopped
