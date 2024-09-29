@@ -1,0 +1,31 @@
+services:
+  minio:
+    image: "quay.io/minio/minio:latest"
+    restart: always
+    environment:
+      - MINIO_SERVER_URL=$MINIO_SERVER_URL
+      - MINIO_BROWSER_REDIRECT_URL=$MINIO_BROWSER_REDIRECT_URL
+      - MINIO_ROOT_USER=$SERVICE_USER_MINIO
+      - MINIO_ROOT_PASSWORD=$SERVICE_PASSWORD_MINIO
+      - DO_SPACES_ACCESS_KEY=$DO_SPACES_ACCESS_KEY
+      - DO_SPACES_SECRET_KEY=$DO_SPACES_SECRET_KEY
+      - DO_SPACES_REGION=$DO_SPACES_REGION
+      - DO_SPACES_ENDPOINT=$DO_SPACES_ENDPOINT
+    volumes:
+      - ./data:/data
+      - ./config:/root/.minio
+      - ./config.json:/root/.minio/config.json
+      - ./entrypoint.sh:/entrypoint.sh
+    entrypoint: ["/entrypoint.sh"]
+    healthcheck:
+      test:
+        - CMD
+        - mc
+        - ready
+        - local
+      interval: 5s
+      timeout: 20s
+      retries: 10
+volumes:
+  minio-data:
+  minio-config:
