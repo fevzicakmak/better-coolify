@@ -1,0 +1,63 @@
+services:
+  outline:
+    image: "docker.getoutline.com/outlinewiki/outline:latest"
+    volumes:
+      - "storage-data:/var/lib/outline/data"
+    environment:
+      - DATABASE_URL=$DATABASE_URL
+      - ENABLE_UPDATES=$ENABLE_UPDATES
+      - FILE_STORAGE=$FILE_STORAGE
+      - FILE_STORAGE_LOCAL_ROOT_DIR=$FILE_STORAGE_LOCAL_ROOT_DIR
+      - FILE_STORAGE_UPLOAD_MAX_SIZE=$FILE_STORAGE_UPLOAD_MAX_SIZE
+      - FORCE_HTTPS=true
+      - GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
+      - GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
+      - PORT=$PORT
+      - POSTGRES_DB=$POSTGRES_DB
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+      - POSTGRES_USER=$POSTGRES_USER
+      - PGSSLMODE=disable
+      - RATE_LIMITER_DURATION_WINDOW=$RATE_LIMITER_DURATION_WINDOW
+      - RATE_LIMITER_ENABLED=$RATE_LIMITER_ENABLED
+      - RATE_LIMITER_REQUESTS=$RATE_LIMITER_REQUESTS
+      - REDIS_URL=$REDIS_URL
+      - SECRET_KEY=$SECRET_KEY
+      - UTILS_SECRET=$UTILS_SECRET
+      - URL=$URL
+      - WEB_CONCURRENCY=2
+    depends_on:
+      - postgres
+      - redis
+  redis:
+    image: redis
+    volumes:
+      - "./redis.conf:/redis.conf"
+    command:
+      - redis-server
+      - /redis.conf
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - ping
+      interval: 10s
+      timeout: 30s
+      retries: 3
+  postgres:
+    image: postgres
+    volumes:
+      - "database-data:/var/lib/postgresql/data"
+    healthcheck:
+      test:
+        - CMD
+        - pg_isready
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+volumes:
+  storage-data:
+  database-data:
