@@ -19,11 +19,13 @@ services:
       - PGADMIN_DEFAULT_EMAIL=$PGADMIN_DEFAULT_EMAIL
       - PGADMIN_DEFAULT_PASSWORD=$PGADMIN_DEFAULT_PASSWORD
       - PGADMIN_CONFIG_SERVER_MODE=$PGADMIN_CONFIG_SERVER_MODE
-      - PGADMIN_ENABLE_TLS=$PGADMIN_ENABLE_TLS
+      - PGADMIN_LISTEN_PORT=$PGADMIN_LISTEN_PORT
     volumes:
       - pgadmin:/var/lib/pgadmin
     networks:
       - postgres
+    links:
+      - "postgres:pgsql-server"
     restart: unless-stopped
 
 networks:
