@@ -15,11 +15,14 @@ services:
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
+    ports:
+      - "5050"
     environment:
       - PGADMIN_DEFAULT_EMAIL=$PGADMIN_DEFAULT_EMAIL
       - PGADMIN_DEFAULT_PASSWORD=$PGADMIN_DEFAULT_PASSWORD
       - PGADMIN_CONFIG_SERVER_MODE=$PGADMIN_CONFIG_SERVER_MODE
       - PGADMIN_LISTEN_PORT=$PGADMIN_LISTEN_PORT
+      - PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION=$PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION
     volumes:
       - pgadmin:/var/lib/pgadmin
     networks:
