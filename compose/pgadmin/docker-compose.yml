@@ -23,16 +23,7 @@ services:
       - PGADMIN_CONFIG_SERVER_MODE=$PGADMIN_CONFIG_SERVER_MODE
       - PGADMIN_LISTEN_PORT=$PGADMIN_LISTEN_PORT
       - PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION=$PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION
-      # Number of values to trust for X-Forwarded-For
-      - PROXY_X_FOR_COUNT = 1
-      # Number of values to trust for X-Forwarded-Proto.
-      - PROXY_X_PROTO_COUNT = 0
-      # Number of values to trust for X-Forwarded-Host.
-      - PROXY_X_HOST_COUNT = 0
-      # Number of values to trust for X-Forwarded-Port.
-      - PROXY_X_PORT_COUNT = 1
-      # Number of values to trust for X-Forwarded-Prefix.
-      - PROXY_X_PREFIX_COUNT = 0
+      - AUTHENTICATION_SOURCES=webservers
     volumes:
       - pgadmin:/var/lib/pgadmin
     networks:
